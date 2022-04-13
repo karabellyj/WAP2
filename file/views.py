@@ -1,17 +1,10 @@
-import io
-import mimetypes
+from django.http import FileResponse
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.http import HttpResponse, FileResponse
-from django.shortcuts import render
 from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic import DetailView, ListView, CreateView, TemplateView
 from django.views import View
-from django.views.generic import DetailView
-from django.views.generic import TemplateView
-from django.views.generic.base import TemplateView
-from django.views.generic.edit import CreateView
-
 from file.models import File
 from .forms import CreateFileForm
 
@@ -36,10 +29,12 @@ class HomeView(TemplateView):
     template_name = 'file/home.html'
 
 
-class FileView(TemplateView):
-    template_name = 'file_view.html'
-    model = File
+class FileListView(ListView):
+    template_name = 'file/list.html'
+    queryset = File.objects.all()
 
+    def get_queryset(self):
+        return self.queryset.filter(user=self.request.user)
 
 class FileCreateView(LoginRequiredMixin, CreateView):
     form_class = CreateFileForm
