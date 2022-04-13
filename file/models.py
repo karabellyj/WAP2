@@ -1,6 +1,6 @@
 from django.db import models
 from hashlib import md5
-
+from django.contrib.auth import get_user_model
 
 class File(models.Model):
     url_hash = models.URLField(unique=True)
@@ -8,6 +8,12 @@ class File(models.Model):
     expire_at = models.DateTimeField()
     created_at = models.DateTimeField(auto_now_add=True)
     visits = models.PositiveIntegerField(default=0)
+
+    user = models.ForeignKey(
+        get_user_model(),
+        on_delete=models.CASCADE,
+        related_name='files'
+    )
 
     def clicked(self):
         visits += 1
