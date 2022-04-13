@@ -1,0 +1,6 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h2>File Detail</h2>
+    <p>File download url: <a href="{% url 'file-download' object.url_hash %}">{{ request.scheme }}://{{ request.get_host }}{% url 'file-download' object.url_hash %}</a></p>
+    <p>File manage url: <a href="{% url 'file-detail' object.url_hash %}">{{ request.build_absolute_uri }}</a></p>
+{% endblock content %}

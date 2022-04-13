@@ -7,8 +7,10 @@ from django.views.generic.base import TemplateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.edit import CreateView
 from django.views.generic import DetailView
+from django.views import View
 from file.models import File
 from .forms import CreateFileForm
+
 
 # Create your views here.
 def signup(request):
@@ -42,11 +44,16 @@ class FileCreateView(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         # uploaded_file = form.files['file'].file
         # data = uploaded_file.file.read()
-        
+
         form.instance.user = self.request.user
         return super().form_valid(form)
 
 
 class FileDetailView(LoginRequiredMixin, DetailView):
     model = File
-    
+    slug_url_kwarg = 'url'
+    slug_field = 'url_hash'
+
+
+class FileDownloadView(View):
+    pass
