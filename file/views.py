@@ -1,12 +1,8 @@
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import UserCreationForm
 from django.shortcuts import render, redirect
-from django.views.generic import TemplateView
-from django.shortcuts import render
-from django.views.generic.base import TemplateView
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic.edit import CreateView
-from django.views.generic import DetailView
+from django.views.generic import DetailView, ListView, CreateView, TemplateView
 from django.views import View
 from file.models import File
 from .forms import CreateFileForm
@@ -32,10 +28,12 @@ class HomeView(TemplateView):
     template_name = 'file/home.html'
 
 
-class FileView(TemplateView):
-    template_name = 'file_view.html'
-    model = File
+class FileListView(ListView):
+    template_name = 'file/list.html'
+    queryset = File.objects.all()
 
+    def get_queryset(self):
+        return self.queryset.filter(user=self.request.user)
 
 class FileCreateView(LoginRequiredMixin, CreateView):
     form_class = CreateFileForm

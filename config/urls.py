@@ -17,14 +17,14 @@ from django.contrib import admin
 from django.urls import path, include
 import file.views as file_views
 from django.urls import path
-from file.views import FileView, FileCreateView, FileDetailView, FileDownloadView
+from file.views import FileListView, FileCreateView, FileDetailView, FileDownloadView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', file_views.HomeView.as_view(), name='home'),
     path('signup/', file_views.signup, name='register'),
     path('accounts/', include('django.contrib.auth.urls')),
-    path('file/', FileView.as_view()),
+    path('file/', FileListView.as_view(), name='list'),
     path('file/add/', FileCreateView.as_view(), name='file-add'),
     path('file/<str:url>/', FileDownloadView.as_view(), name='file-download'),
     path('file/<str:url>/manage/', FileDetailView.as_view(), name='file-detail'),

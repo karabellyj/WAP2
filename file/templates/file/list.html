@@ -1,0 +1,12 @@
+<h1>Shared files</h1>
+<ul>
+{% for file in object_list %}
+    <li>{{ file.created_at }}</li>
+    <li>{{ file.expired_at }}</li>
+    <li>{{ file.visits }}</li>
+
+    <a href={{ file.get_absolute_url }}><button>Detail</button></a>
+{% empty %}
+    <li>No uploaded file yet.</li>
+{% endfor %}
+</ul>
