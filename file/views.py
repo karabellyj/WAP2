@@ -2,6 +2,12 @@ from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import UserCreationForm
 from django.shortcuts import render, redirect
 from django.views.generic import TemplateView
+from django.shortcuts import render
+from django.views.generic.base import TemplateView
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic.edit import CreateView
+from file.models import File
+
 
 # Create your views here.
 def signup(request):
@@ -21,3 +27,19 @@ def signup(request):
 
 class HomeView(TemplateView):
     template_name = 'file/home.html'
+
+
+class FileView(TemplateView):
+    template_name = 'file_view.html'
+    model = File
+
+
+class FileCreateView(LoginRequiredMixin, CreateView):
+    form_class = CreateFileForm
+
+    def form_valid(self, form):
+        # uploaded_file = form.files['file'].file
+        # data = uploaded_file.file.read()
+        
+        form.instance.user = self.request.user
+        return super().fomr_valid(form)
