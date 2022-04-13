@@ -17,7 +17,7 @@ from django.contrib import admin
 from django.urls import path, include
 import file.views as file_views
 from django.urls import path
-from file.views import FileView, FileCreateView
+from file.views import FileView, FileCreateView, FileDetailView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -25,5 +25,7 @@ urlpatterns = [
     path('signup/', file_views.signup, name='register'),
     path('accounts/', include('django.contrib.auth.urls')),
     path('file/', FileView.as_view()),
-    path('file/add/', FileCreateView.as_view()),
+    path('file/add/', FileCreateView.as_view(), name='file-add'),
+    # path('file/<str:url>/', )
+    path('file/<str:url>/manage/', FileDetailView.as_view(), name='file-detail'),
 ]
