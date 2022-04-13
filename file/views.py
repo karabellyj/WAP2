@@ -1,13 +1,17 @@
+import io
+import mimetypes
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import UserCreationForm
-from django.shortcuts import render, redirect
-from django.views.generic import TemplateView
-from django.shortcuts import render
-from django.views.generic.base import TemplateView
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic.edit import CreateView
-from django.views.generic import DetailView
+from django.http import HttpResponse, FileResponse
+from django.shortcuts import render
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
+from django.views.generic import DetailView
+from django.views.generic import TemplateView
+from django.views.generic.base import TemplateView
+from django.views.generic.edit import CreateView
+
 from file.models import File
 from .forms import CreateFileForm
 
@@ -42,8 +46,8 @@ class FileCreateView(LoginRequiredMixin, CreateView):
     template_name = 'file/file_form.html'
 
     def form_valid(self, form):
-        # uploaded_file = form.files['file'].file
-        # data = uploaded_file.file.read()
+        # uploaded_file = form.files['data']
+
 
         form.instance.user = self.request.user
         return super().form_valid(form)
@@ -56,4 +60,10 @@ class FileDetailView(LoginRequiredMixin, DetailView):
 
 
 class FileDownloadView(View):
-    pass
+    def get(self, request, url):
+        file = get_object_or_404(File, url_hash=url)
+        # mime = mimetypes.guess_type(file.file.name)[0]
+        response = FileResponse(file.file)
+        # response['Content-Type'] = mimetypes
+        response['Content-Disposition'] = 'attachment; filename="{}"'.format(file.filename)  # You can set custom filename, which will be visible for clients.
+        return response

@@ -1,6 +1,7 @@
 from django import forms
 from .models import File
 
+
 class BinaryFileInput(forms.ClearableFileInput):
 
     def is_initial(self, value):
@@ -18,7 +19,6 @@ class BinaryFileInput(forms.ClearableFileInput):
         if self.is_initial(value):
             return f'{len(value)} bytes'
 
-
     def value_from_datadict(self, data, files, name):
         """Return the file contents so they can be put in the db."""
         upload = super().value_from_datadict(data, files, name)
@@ -30,7 +30,7 @@ class CreateFileForm(forms.ModelForm):
     class Meta:
         model = File
         fields = ('file', 'expire_at')
-    
-        widgets = {
-            'file': BinaryFileInput
-        }
+
+        # widgets = {
+        #     'data': BinaryFileInput
+        # }
