@@ -8,6 +8,7 @@
 
     <a href={% url 'file-detail' file.url_hash %}><button>Detail</button></a>
     <a href={% url 'file-delete' file.url_hash %}><button>Delete</button></a>
+    <a href={% url 'file-update-expiry' file.url_hash %}><button>Update expiry</button></a>
 {% empty %}
     <li>No uploaded file yet.</li>
 {% endfor %}

@@ -1,10 +1,11 @@
+from dataclasses import fields
 from django.http import FileResponse
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import UserCreationForm
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
-from django.views.generic import DetailView, ListView, CreateView, TemplateView, DeleteView
+from django.views.generic import DetailView, ListView, CreateView, TemplateView, DeleteView, UpdateView
 from django.views import View
 from file.models import File
 from .forms import CreateFileForm
@@ -59,6 +60,13 @@ class FileDeleteView(LoginRequiredMixin, DeleteView):
     success_url = reverse_lazy('file-list')
 
 
+class FileExpiryUpdateView(LoginRequiredMixin, UpdateView):
+    model = File
+    fields = ('expire_at',)
+    slug_url_kwarg = 'url'
+    slug_field = 'url_hash'
+
+    
 class FileDownloadView(View):
     def get(self, request, url):
         file = get_object_or_404(File, url_hash=url)
