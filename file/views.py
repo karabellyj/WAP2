@@ -29,7 +29,7 @@ class HomeView(TemplateView):
     template_name = 'file/home.html'
 
 
-class FileListView(ListView):
+class FileListView(LoginRequiredMixin, ListView):
     template_name = 'file/list.html'
     queryset = File.objects.all()
 
@@ -57,8 +57,6 @@ class FileDetailView(LoginRequiredMixin, DetailView):
 class FileDownloadView(View):
     def get(self, request, url):
         file = get_object_or_404(File, url_hash=url)
-        # mime = mimetypes.guess_type(file.file.name)[0]
         response = FileResponse(file.file)
-        # response['Content-Type'] = mimetypes
         response['Content-Disposition'] = 'attachment; filename="{}"'.format(file.filename)  # You can set custom filename, which will be visible for clients.
         return response
