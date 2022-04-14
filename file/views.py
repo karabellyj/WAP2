@@ -4,7 +4,7 @@ from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import UserCreationForm
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.urls import reverse_lazy
+from django.urls import reverse, reverse_lazy
 from django.views.generic import DetailView, ListView, CreateView, TemplateView, DeleteView, UpdateView
 from django.views import View
 from file.models import File
@@ -66,7 +66,13 @@ class FileExpiryUpdateView(LoginRequiredMixin, UpdateView):
     slug_url_kwarg = 'url'
     slug_field = 'url_hash'
 
-    
+class FileRegenerateUrlView(LoginRequiredMixin, View):
+    def get(self, request, url):
+        file = get_object_or_404(File, url_hash=url)
+        file.regenerate()
+        return redirect(file.get_absolute_url())
+
+
 class FileDownloadView(View):
     def get(self, request, url):
         file = get_object_or_404(File, url_hash=url)

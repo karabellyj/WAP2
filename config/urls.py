@@ -17,7 +17,7 @@ from django.contrib import admin
 from django.urls import path, include
 import file.views as file_views
 from django.urls import path
-from file.views import FileListView, FileCreateView, FileDetailView, FileDownloadView, FileDeleteView, FileExpiryUpdateView
+from file.views import FileListView, FileCreateView, FileDetailView, FileDownloadView, FileDeleteView, FileExpiryUpdateView, FileRegenerateUrlView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -30,4 +30,5 @@ urlpatterns = [
     path('file/<str:url>/manage/', FileDetailView.as_view(), name='file-detail'),
     path('file/<str:url>/delete/', FileDeleteView.as_view(), name='file-delete'),
     path('file/<str:url>/update-expiry/', FileExpiryUpdateView.as_view(), name='file-update-expiry'),
+    path('file/<str:url>/regenerate/', FileRegenerateUrlView.as_view(), name='file-regenerate-url'),
 ]

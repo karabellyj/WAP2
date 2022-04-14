@@ -1,4 +1,5 @@
 import os
+from uuid import uuid4
 from django.db import models
 from hashlib import md5
 from django.contrib.auth import get_user_model
@@ -26,9 +27,13 @@ class File(models.Model):
         self.visits += 1
         self.save()
 
+    def regenerate(self):
+        self.url_hash = uuid4()
+        self.save()
+
     def save(self, *args, **kwargs):
         if not self.id:
-            self.url_hash = md5(self.file.read()).hexdigest()[:10]
+            self.url_hash = uuid4()
 
         return super().save(*args, **kwargs)
 
