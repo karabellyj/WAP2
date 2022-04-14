@@ -3,7 +3,8 @@ from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import UserCreationForm
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic import DetailView, ListView, CreateView, TemplateView
+from django.urls import reverse_lazy
+from django.views.generic import DetailView, ListView, CreateView, TemplateView, DeleteView
 from django.views import View
 from file.models import File
 from .forms import CreateFileForm
@@ -41,9 +42,6 @@ class FileCreateView(LoginRequiredMixin, CreateView):
     template_name = 'file/file_form.html'
 
     def form_valid(self, form):
-        # uploaded_file = form.files['data']
-
-
         form.instance.user = self.request.user
         return super().form_valid(form)
 
@@ -52,6 +50,13 @@ class FileDetailView(LoginRequiredMixin, DetailView):
     model = File
     slug_url_kwarg = 'url'
     slug_field = 'url_hash'
+
+
+class FileDeleteView(LoginRequiredMixin, DeleteView):
+    model = File
+    slug_url_kwarg = 'url'
+    slug_field = 'url_hash'
+    success_url = reverse_lazy('file-list')
 
 
 class FileDownloadView(View):

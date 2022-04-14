@@ -5,7 +5,8 @@
     <li>{{ file.expire_at }}</li>
     <li>{{ file.visits }}</li>
 
-    <a href={{ file.get_absolute_url }}><button>Detail</button></a>
+    <a href={% url 'file-detail' file.url_hash %}><button>Detail</button></a>
+    <a href={% url 'file-delete' file.url_hash %}><button>Delete</button></a>
 {% empty %}
     <li>No uploaded file yet.</li>
 {% endfor %}
