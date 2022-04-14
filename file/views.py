@@ -62,6 +62,7 @@ class FileDeleteView(LoginRequiredMixin, DeleteView):
 class FileDownloadView(View):
     def get(self, request, url):
         file = get_object_or_404(File, url_hash=url)
+        file.clicked()
         response = FileResponse(file.file)
         response['Content-Disposition'] = 'attachment; filename="{}"'.format(file.filename)  # You can set custom filename, which will be visible for clients.
         return response
