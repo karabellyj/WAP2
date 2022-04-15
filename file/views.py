@@ -1,4 +1,3 @@
-from dataclasses import fields
 from django.http import FileResponse
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import UserCreationForm
@@ -7,7 +6,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse, reverse_lazy
 from django.views.generic import DetailView, ListView, CreateView, TemplateView, DeleteView, UpdateView
 from django.views import View
-from file.models import File
+from .models import File
 from .forms import CreateFileForm
 
 
