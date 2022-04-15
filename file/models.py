@@ -1,9 +1,19 @@
+
 import os
+from datetime import date
 from uuid import uuid4
 from django.db import models
 from hashlib import md5
 from django.contrib.auth import get_user_model
 from django.urls import reverse
+
+
+class FileQuerySet(models.QuerySet):
+    def visible(self):
+        return self.filter(expire_at__gte=date.today())
+
+    def expired(self):
+        return self.filter(expire_at__lt=date.today())
 
 
 class File(models.Model):
@@ -18,6 +28,8 @@ class File(models.Model):
         on_delete=models.CASCADE,
         related_name='files'
     )
+
+    objects = FileQuerySet.as_manager()
 
     @property
     def filename(self):

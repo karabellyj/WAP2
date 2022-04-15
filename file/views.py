@@ -33,7 +33,7 @@ class HomeView(TemplateView):
 
 class FileListView(LoginRequiredMixin, ListView):
     template_name = 'file/list.html'
-    queryset = File.objects.all()
+    queryset = File.objects.visible()
 
     def get_queryset(self):
         return self.queryset.filter(user=self.request.user)
