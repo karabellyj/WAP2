@@ -1,8 +1,15 @@
 {% extends 'base.html' %}
+
+{% block title %}
+    Upload file
+{% endblock %}
+
 {% block content %}
-    <form method="post" enctype="multipart/form-data">
+<div class="container-sm text-center">
+    <form class="form-horizontal mt-4"method="post" enctype="multipart/form-data">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit">Submit</button>
+        <button class="btn btn-primary" type="submit">Submit</button>
     </form>
+</div>
 {% endblock content %}
