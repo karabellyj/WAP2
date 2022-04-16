@@ -1,0 +1,32 @@
+ <div
+     class='input-group'
+     id='{{ widget.datetimepicker_id }}'
+     data-td-target-input='nearest'
+     data-td-target-toggle='nearest'
+ >
+   {% include "django/forms/widgets/input.html" %}
+   <span
+     class='input-group-text'
+     data-td-target='#{{ widget.datetimepicker_id }}'
+     data-td-toggle='datetimepicker'>
+    <span class='fa-solid fa-calendar'></span></span>
+ </div>
+  
+<script>
+    var td = new tempusDominus.TempusDominus(
+        document.getElementById('{{ widget.datetimepicker_id }}'),
+        {
+            display: {
+                components: {
+                  decades: true,
+                  year: true,
+                  month: true,
+                  date: true,
+                  hours: false,
+                  minutes: false,
+                  seconds: false,
+                }
+            }
+        }
+    );
+</script>

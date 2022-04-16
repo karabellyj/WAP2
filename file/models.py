@@ -31,6 +31,10 @@ class File(models.Model):
 
     objects = FileQuerySet.as_manager()
 
+
+    def __str__(self) -> str:
+        return self.filename
+    
     @property
     def filename(self):
         return os.path.basename(self.file.name)

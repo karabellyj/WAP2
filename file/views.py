@@ -7,7 +7,7 @@ from django.urls import reverse, reverse_lazy
 from django.views.generic import DetailView, ListView, CreateView, TemplateView, DeleteView, UpdateView
 from django.views import View
 from .models import File
-from .forms import CreateFileForm
+from .forms import CreateFileForm, UpdateExpiryFileForm
 
 
 # Create your views here.
@@ -61,7 +61,7 @@ class FileDeleteView(LoginRequiredMixin, DeleteView):
 
 class FileExpiryUpdateView(LoginRequiredMixin, UpdateView):
     model = File
-    fields = ('expire_at',)
+    form_class = UpdateExpiryFileForm
     slug_url_kwarg = 'url'
     slug_field = 'url_hash'
 
