@@ -41,9 +41,12 @@
 
     <div class="row justify-content-sm-center mb-4">
         <div class="col">
-            <a href="{{ request.scheme }}://{{ request.get_host }}{% url 'file-download' object.url_hash %}">
-                <button class="btn btn-outline-primary">Download</button>
+            <a class="p-2 btn btn-outline-primary" href="{{ request.scheme }}://{{ request.get_host }}{% url 'file-download' object.url_hash %}">
+                Download
             </a>
+            <a class="p-2 btn btn-outline-primary" href={% url 'file-regenerate-url' object.url_hash %}>Regenerate url</a>
+            <a class="p-2 btn btn-outline-primary" href={% url 'file-update-expiry' object.url_hash %}>Update expiry</a>
+            <a class="p-2 btn btn-outline-danger" href={% url 'file-delete' object.url_hash %}>Delete</a>
         </div>
     </div>
 </div>
